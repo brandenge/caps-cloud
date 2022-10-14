@@ -2,9 +2,9 @@
   "name": "caps-cloud",
   "version": "1.0.0",
   "description": "## Project: CAPS Cloud",
-  "main": "driver.js",
+  "main": "widgets.js",
   "scripts": {
-    "start": "node driver.js",
+    "start": "node widgets.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/brandenge/caps-cloud/issues"
   },
-  "homepage": "https://github.com/brandenge/caps-cloud#readme"
+  "homepage": "https://github.com/brandenge/caps-cloud#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1232.0",
+    "chance": "^1.1.8",
+    "eslint": "^8.25.0",
+    "sqs-consumer": "^5.7.0",
+    "sqs-producer": "^2.1.0"
+  }
 }
