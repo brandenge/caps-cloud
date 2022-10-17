@@ -10,29 +10,28 @@ const sns = new AWS.SNS();
 const topic = 'arn:aws:sns:us-east-2:623507191376:pickup.fifo';
 const queueUrl = 'https://sqs.us-east-2.amazonaws.com/623507191376/flowers';
 
-const orderDetails = {
-  orderId: chance.guid(),
-  customer: chance.name(),
-  vendorId: queueUrl,
-};
+setInterval(() => {
+  const orderDetails = {
+    orderId: chance.guid(),
+    customer: chance.name(),
+    vendorId: queueUrl,
+  };
 
-const payload = {
-  Message: JSON.stringify(orderDetails),
-  TopicArn: topic,
-  MessageGroupId: 'flowers',
-  MessageDeduplicationId: chance.guid(),
-};
+  const payload = {
+    Message: JSON.stringify(orderDetails),
+    TopicArn: topic,
+    MessageGroupId: 'flowers',
+    MessageDeduplicationId: chance.guid(),
+  };
 
-// setInterval(() => {
-
-// });
-sns.publish(payload).promise()
-  .then(data => console.log('DATA:', data))
-  .catch(err => console.log('ERROR IN FLOWERS', err));
+  sns.publish(payload).promise()
+    .then(data => console.log('DATA:', data))
+    .catch(err => console.log('ERROR IN FLOWERS', err));
+}, 5000);
 
 const consumer = Consumer.create({
   queueUrl: queueUrl,
-  handleMessage: async (data) => {
+  handleMessage: (data) => {
     console.log('DATA:', data);
     const parsedMessageBody = JSON.parse(data.Body);
     console.log('PARSED BODY:', parsedMessageBody);
