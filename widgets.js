@@ -10,22 +10,24 @@ const sns = new AWS.SNS();
 const topic = 'arn:aws:sns:us-east-2:623507191376:pickup.fifo';
 const queueUrl = 'https://sqs.us-east-2.amazonaws.com/623507191376/widgets';
 
-const orderDetails = {
-  orderId: chance.guid(),
-  customer: chance.name(),
-  vendorId: queueUrl,
-};
+setInterval(() => {
+  const orderDetails = {
+    orderId: chance.guid(),
+    customer: chance.name(),
+    vendorId: queueUrl,
+  };
 
-const payload = {
-  Message: JSON.stringify(orderDetails),
-  TopicArn: topic,
-  MessageGroupId: 'widgets',
-  MessageDeduplicationId: chance.guid(),
-};
+  const payload = {
+    Message: JSON.stringify(orderDetails),
+    TopicArn: topic,
+    MessageGroupId: 'widgets',
+    MessageDeduplicationId: chance.guid(),
+  };
 
-sns.publish(payload).promise()
-  .then(data => console.log('DATA:', data))
-  .catch(err => console.log('ERROR IN WIDGETS', err));
+  sns.publish(payload).promise()
+    .then(data => console.log('DATA:', data))
+    .catch(err => console.log('ERROR IN WIDGETS', err));
+}, 5000);
 
 const consumer = Consumer.create({
   queueUrl: queueUrl,
@@ -36,4 +38,4 @@ const consumer = Consumer.create({
   },
 });
 
-// consumer.start();
+consumer.start();

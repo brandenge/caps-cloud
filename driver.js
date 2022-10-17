@@ -24,9 +24,11 @@ const consumer = Consumer.create({
       body: messageString,
     };
 
-    const response = await producer.send(payload);
-    console.log('RESPONSE:', response);
+    setTimeout(async () => {
+      const response = await producer.send(payload);
+      console.log('RESPONSE:', response);
+    }, Math.floor(Math.random() * 5000));
   },
 });
 
-// consumer.start();
+consumer.start();
